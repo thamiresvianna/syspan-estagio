@@ -56,12 +56,31 @@ INSERT INTO clientes (nome, email, telefone) VALUES ('Sarah Gonçalves', 'sarahg
 INSERT INTO clientes (nome, email, telefone) VALUES ('Luisa Marcon', 'luisa@gmail.com', '98574-0147');
 
 -- Inserção de Equipamentos
-INSERT INTO equipamento (descricao, diaria) VALUES ('Gerador de Energia', 230.00);
-INSERT INTO equipamento (descricao, diaria) VALUES ('Martelo Demolidor', 35.00);
-INSERT INTO equipamento (descricao, diaria) VALUES ('Plataforma Elevatória Articulada', 550.00);
-INSERT INTO equipamento (descricao, diaria) VALUES ('Rolo Compactador', 250.00);
-INSERT INTO equipamento (descricao, diaria) VALUES ('Betoneira', 19.00);
+INSERT INTO equipamentos (descricao, diaria) VALUES ('Gerador de Energia', 230.00);
+INSERT INTO equipamentos (descricao, diaria) VALUES ('Martelo Demolidor', 35.00);
+INSERT INTO equipamentos (descricao, diaria) VALUES ('Plataforma Elevatória Articulada', 550.00);
+INSERT INTO equipamentos (descricao, diaria) VALUES ('Rolo Compactador', 250.00);
+INSERT INTO equipamentos (descricao, diaria) VALUES ('Betoneira', 19.00);
 
 -- Inserção de Contratos
-INSERT INTO contratos (id_cliente, data_inicio, data_fim, status, observacao) VALUES (1, '2026-05-18', '2026-05-22', 'ATIVO', 'Contrato em endamento');
+INSERT INTO contratos (id_cliente, data_inicio, data_fim, status, observacao) VALUES (1, '2026-05-18', '2026-05-22', 'ATIVO', 'Contrato em andamento');
 INSERT INTO contratos (id_cliente, data_inicio, data_fim, status, observacao) VALUES (3, '2026-06-01', '2026-06-05', 'AGENDADO', 'Contrato futuro');
+
+-- Inserção de Itens do Contratos
+INSERT INTO contrato_itens (id_contrato, id_equipamento, diaria, qtd) VALUES (1, 1, 230.00, 3);
+INSERT INTO contrato_itens (id_contrato, id_equipamento, diaria, qtd) VALUES (1, 2, 35.00, 2);
+INSERT INTO contrato_itens (id_contrato, id_equipamento, diaria, qtd) VALUES (2, 3, 550.00, 1);
+INSERT INTO contrato_itens (id_contrato, id_equipamento, diaria, qtd) VALUES (2, 5, 19.00, 3);
+
+select * from clientes;
+select * from equipamentos;
+select * from contratos;
+select * from contrato_itens;
+
+-- Select Contratos + Clientes
+SELECT contratos.id, clientes.nome as cliente, contratos.data_inicio, contratos.data_fim, contratos.status, contratos.observacao
+FROM contratos INNER JOIN clientes ON contratos.id_cliente = clientes.id;
+
+-- Select Itens + Equipamento com subtotal
+SELECT contrato_itens.id_contrato, equipamentos.descricao as equipamento, contrato_itens.diaria, contrato_itens.qtd, (contrato_itens.diaria * contrato_itens.qtd) as subtotal
+FROM contrato_itens INNER JOIN equipamentos ON contrato_itens.id_equipamento = equipamentos.id;
